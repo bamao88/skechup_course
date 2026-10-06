@@ -1,0 +1,289 @@
+<title>SketchUp 课程资源包</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;700&family=Noto+Sans+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: a single reading column that follows the lesson order; each segment is a band of figures, tagged with the SketchUp axis colours. */
+:root {
+  --bg: #f3f5f7;
+  --surface: #ffffff;
+  --fg: #1d2530;
+  --muted: #5b6676;
+  --line: #d7dde5;
+  --accent: #1f5fbf;      /* blue axis */
+  --axis-r: #c8322b;      /* red axis */
+  --axis-g: #2f8a3e;      /* green axis */
+  --note-bg: #fff6e0;
+  --note-fg: #6b4a00;
+  --font-display: "Noto Serif SC", "Songti SC", serif;
+  --font-body: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #12161c; --surface: #1a2029; --fg: #e3e8ef; --muted: #9aa5b4; --line: #2c3542;
+    --accent: #6ea4ff; --axis-r: #ff7a72; --axis-g: #6fcf7f; --note-bg: #2e2612; --note-fg: #f1d58f;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #12161c; --surface: #1a2029; --fg: #e3e8ef; --muted: #9aa5b4; --line: #2c3542;
+  --accent: #6ea4ff; --axis-r: #ff7a72; --axis-g: #6fcf7f; --note-bg: #2e2612; --note-fg: #f1d58f;
+  color-scheme: dark;
+}
+body { background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 15px; line-height: 1.7; }
+.wrap { max-width: 980px; margin: 0 auto; padding-inline: 20px; padding-block: 40px 80px; }
+h1, h2 { font-family: var(--font-display); text-wrap: balance; line-height: 1.3; margin: 0; }
+h1 { font-size: 2rem; }
+h2 { font-size: 1.4rem; }
+h3 { font-size: 1.05rem; margin: 0; }
+p { margin: 0; max-width: 68ch; }
+a { color: var(--accent); }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+header { display: grid; gap: 12px; padding-bottom: 28px; border-bottom: 1px solid var(--line); }
+.lede { color: var(--muted); }
+.axes { display: flex; gap: 6px; }
+.axes i { width: 28px; height: 3px; display: block; }
+.axes i:nth-child(1) { background: var(--axis-r); }
+.axes i:nth-child(2) { background: var(--axis-g); }
+.axes i:nth-child(3) { background: var(--accent); }
+.note { background: var(--note-bg); color: var(--note-fg); padding: 14px 16px; border-radius: 6px; display: grid; gap: 6px; }
+.note ul { margin: 0; padding-left: 1.2em; }
+nav.toc { display: flex; flex-wrap: wrap; gap: 8px 16px; font-size: .9rem; }
+section { display: grid; gap: 18px; padding-top: 44px; }
+.sec-head { display: grid; gap: 6px; }
+.time { font-family: var(--font-mono); font-size: .78rem; letter-spacing: .04em; color: var(--muted); }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 18px; }
+figure { margin: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; overflow: hidden; display: grid; grid-template-rows: auto 1fr; min-width: 0; }
+figure .img { background: #fff; display: grid; place-items: center; padding: 8px; }
+img { max-width: 100%; height: auto; }
+figure .img { min-width: 0; }
+figure img { width: 100%; max-height: 320px; object-fit: contain; }
+figcaption { padding: 12px 14px; display: grid; gap: 6px; align-content: start; font-size: .9rem; }
+figcaption .src { font-size: .8rem; color: var(--muted); }
+.tag { font-family: var(--font-mono); font-size: .72rem; padding: 1px 6px; border-radius: 3px; border: 1px solid currentColor; justify-self: start; }
+.tag.official { color: var(--accent); }
+.tag.check { color: var(--axis-r); }
+.wide { grid-column: 1 / -1; }
+.pages { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+.pages a { display: block; border: 1px solid var(--line); border-radius: 4px; overflow: hidden; background: #fff; }
+.pages img { display: block; width: 100%; }
+.pages span { display: block; font-size: .78rem; color: var(--muted); padding: 4px 8px; background: var(--surface); font-family: var(--font-mono); }
+.table-wrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: .9rem; background: var(--surface); }
+th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-weight: 700; color: var(--muted); font-size: .8rem; letter-spacing: .03em; }
+kbd { font-family: var(--font-mono); font-size: .82em; border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 3px; padding: 0 5px; background: var(--surface); }
+ul.links { margin: 0; padding-left: 1.2em; display: grid; gap: 4px; }
+@media (max-width: 480px) { h1 { font-size: 1.6rem; } }
+</style>
+
+<div class="wrap">
+<header>
+  <div class="axes" aria-hidden="true"><i></i><i></i><i></i></div>
+  <h1>SketchUp 课程资源包</h1>
+  <p class="lede">按课程顺序整理的官方资源和图示。图片均来自 SketchUp 官方帮助中心和官方 SketchUp for Schools 教案，每张都标了出处。点图片可查看原图。</p>
+  <div class="note">
+    <strong>用之前先知道的四件事</strong>
+    <ul>
+      <li><strong>界面版本不同。</strong>帮助中心的截图多是 Windows 桌面版；小木屋教案是 SketchUp for Schools（网页版）界面。你用的 Mac 桌面版没有右侧“托盘”，面板都是从「窗口」菜单打开的独立对话框。</li>
+      <li><strong>官方 Campus 已迁移。</strong>原 SketchUp Campus 的链接现在跳到 Trimble Learn。新的基础课是 Fundamentals 1–5 共五门，不是我之前说的 12 个单元，之前的说法已过时。</li>
+      <li><strong>没有中文课程。</strong>Trimble Learn 的基础课有英、德、西、法、意、日、韩、荷、葡九种语言，没有中文。帮助中心有简体中文入口，但很多页面仍是英文。</li>
+      <li><strong>标「待验证」的条目</strong>我没能亲自打开或测试，需要你上手确认。</li>
+    </ul>
+  </div>
+  <nav class="toc" aria-label="目录">
+    <a href="#prep">课前设置</a><a href="#selfhelp">自学入口</a><a href="#edges">线与面</a><a href="#basics">基本操作</a><a href="#cabin">搭小木屋</a><a href="#ai">AI 部分</a><a href="#next">学习方向</a>
+  </nav>
+</header>
+
+<section id="prep">
+  <div class="sec-head">
+    <span class="time">课前 · 你的电脑和学生的电脑</span>
+    <h2>课前设置：选毫米模板</h2>
+    <p>新建模型时选 <strong>Architectural（建筑）· Millimeters</strong> 模板，单位就是毫米，后面输入 3000 就是 3 米。也可以在偏好设置里把它设为默认模板。</p>
+  </div>
+  <div class="grid">
+    <figure>
+      <a class="img" href="template_home.png" target="_blank" rel="noopener"><img src="template_home.png" alt="SketchUp 主页上的模板列表，包括 Architectural Millimeters"></a>
+      <figcaption><span class="tag official">官方</span>开启 SketchUp 时的主页，第一排就能选模板，第四个是建筑-毫米。<span class="src">来源：<a href="https://help.sketchup.com/en/sketchup/setting-templates" target="_blank" rel="noopener">Model Templates</a></span></figcaption>
+    </figure>
+    <figure>
+      <a class="img" href="template_prefs.png" target="_blank" rel="noopener"><img src="template_prefs.png" alt="偏好设置里的默认绘图模板列表"></a>
+      <figcaption><span class="tag official">官方</span>偏好设置 → Template，把建筑-毫米设为默认，以后新建都用它。<span class="src">来源：同上</span></figcaption>
+    </figure>
+    <figure>
+      <a class="img" href="ui_overview.png" target="_blank" rel="noopener"><img src="ui_overview.png" alt="SketchUp 界面总览，标注了 6 个区域"></a>
+      <figcaption><span class="tag official">官方</span>界面六个区域：标题栏、菜单栏、工具栏、绘图区、状态栏、托盘（Windows）。状态栏中间会实时提示当前工具的用法，右侧是输入尺寸的「数值框」。<span class="src">来源：<a href="https://help.sketchup.com/en/sketchup/user-interface" target="_blank" rel="noopener">Navigating the SketchUp Interface</a></span></figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="selfhelp">
+  <div class="sec-head">
+    <span class="time">10–15 分 · 基本操作时讲</span>
+    <h2>自学入口：工具向导和搜索</h2>
+    <p>这两样是课上要指给学生看的“软件自带的老师”。Mac 上打开工具向导：顶部菜单 <kbd>窗口</kbd> → <kbd>Instructor（工具向导）</kbd>，它会作为一个独立小窗口出现，选中任何工具就显示该工具的动画和用法。</p>
+  </div>
+  <div class="grid">
+    <figure>
+      <a class="img" href="mac_window_menu.png" target="_blank" rel="noopener"><img src="mac_window_menu.png" alt="Mac 版 SketchUp 的窗口菜单，框出了包括 Instructor 在内的对话框列表"></a>
+      <figcaption><span class="tag official">官方 · Mac</span>Mac 版「Window（窗口）」菜单，蓝框里是所有对话框，倒数几项能看到 Instructor。<span class="src">来源：<a href="https://help.sketchup.com/en/sketchup/managing-dialog-boxes-mac-os" target="_blank" rel="noopener">Managing Dialog Boxes in MacOS</a></span></figcaption>
+    </figure>
+    <figure>
+      <a class="img" href="instructor_panel_schools.png" target="_blank" rel="noopener"><img src="instructor_panel_schools.png" alt="工具向导面板，显示环绕工具的说明"></a>
+      <figcaption><span class="tag official">官方 · 网页版</span>工具向导打开后的样子：选中环绕工具，面板里出现示意动画、操作步骤、修饰键和小技巧。Mac 桌面版内容相同，只是窗口形式不同。<span class="src">来源：小木屋教案第 9 页</span></figcaption>
+    </figure>
+    <figure>
+      <a class="img" href="search_bar.png" target="_blank" rel="noopener"><img src="search_bar.png" alt="SketchUp 的搜索框"></a>
+      <figcaption><span class="tag official">官方</span>搜索：不知道工具在哪，直接搜名字或功能。<span class="tag check">待验证</span>Mac 上的打开方式我没找到官方图示，请在你的版本里确认入口和快捷键。<span class="src">来源：<a href="https://help.sketchup.com/en/sketchup/search-tools-commands-and-extensions" target="_blank" rel="noopener">Searching in SketchUp</a></span></figcaption>
+    </figure>
+    <figure>
+      <a class="img" href="search_results.png" target="_blank" rel="noopener"><img src="search_results.png" alt="搜索 transparent 的结果列表"></a>
+      <figcaption><span class="tag official">官方</span>搜索结果会列出命令和简短说明，比如搜 transparent 出现切换透明度、X 光模式。<span class="src">来源：同上</span></figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="edges">
+  <div class="sec-head">
+    <span class="time">3–10 分 · 线与面</span>
+    <h2>线与面：按演示顺序排好的官方图</h2>
+    <p>顺序对应课上的演示：推断点 → 线 → 面 → 分割 → 推拉成体 → 推穿开洞 → 建组。可以照着这些图在 SketchUp 里做演示模块。</p>
+  </div>
+  <div class="grid">
+    <figure>
+      <a class="img" href="inference_midpoint.png" target="_blank" rel="noopener"><img src="inference_midpoint.png" alt="画线时吸附到边的中点，提示 Midpoint"></a>
+      <figcaption><span class="tag official">官方</span><strong>推断点</strong>：鼠标靠近边时自动吸附到中点并提示 Midpoint。课上的“点”就讲这个。<span class="src">来源：<a href="https://help.sketchup.com/en/sketchup/introducing-drawing-basics-and-concepts" target="_blank" rel="noopener">Introducing Drawing Basics and Concepts</a></span></figcaption>
+    </figure>
+    <figure>
+      <a class="img" href="line_blue_axis.png" target="_blank" rel="noopener"><img src="line_blue_axis.png" alt="沿蓝轴画线，提示 On Blue Axis"></a>
+      <figcaption><span class="tag official">官方</span><strong>线</strong>：沿蓝轴画线时线变蓝并提示 On Blue Axis。红绿蓝三色就是三个方向。<span class="src">来源：同上</span></figcaption>
+    </figure>
+    <figure>
+      <a class="img" href="face_created.png" target="_blank" rel="noopener"><img src="face_created.png" alt="线围合后出现的面"></a>
+      <figcaption><span class="tag official">官方</span><strong>面</strong>：线一闭合，面自动出现。<span class="src">来源：同上</span></figcaption>
+    </figure>
+    <figure>
+      <a class="img" href="erase_edge_face.png" target="_blank" rel="noopener"><img src="erase_edge_face.png" alt="擦掉一条边和只删掉一个面的对比"></a>
+      <figcaption><span class="tag official">官方</span>面依附于边：擦掉一条边，相邻的面一起消失；只删面，边还在。这张图最能说明“只有线和面”。<span class="src">来源：同上</span></figcaption>
+    </figure>
+    <figure>
+      <a class="img" href="split_face.png" target="_blank" rel="noopener"><img src="split_face.png" alt="在立方体面上画线把面分成两块"></a>
+      <figcaption><span class="tag official">官方</span><strong>分割</strong>：在面上画一条线，面就被分成两个。<span class="src">来源：<a href="https://help.sketchup.com/en/sketchup/dividing-splitting-and-exploding-lines-and-faces" target="_blank" rel="noopener">Dividing, Splitting, and Exploding</a></span></figcaption>
+    </figure>
+    <figure>
+      <a class="img" href="pushpull_2.png" target="_blank" rel="noopener"><img src="pushpull_2.png" alt="用推拉工具把面拉成立方体"></a>
+      <figcaption><span class="tag official">官方</span><strong>推拉成体</strong>：点面、移动、输入距离回车。注意状态栏的提示文字。<span class="src">来源：<a href="https://help.sketchup.com/en/sketchup/pushing-and-pulling-shapes-3d" target="_blank" rel="noopener">Pushing and Pulling Shapes into 3D</a></span></figcaption>
+    </figure>
+    <figure>
+      <a class="img" href="pushpull_cut.png" target="_blank" rel="noopener"><img src="pushpull_cut.png" alt="把面推到背面形成开口"></a>
+      <figcaption><span class="tag official">官方</span><strong>推穿</strong>：把面一直推到背面，就开出一个洞。小木屋的掏空室内用的就是这个。<span class="src">来源：同上</span></figcaption>
+    </figure>
+    <figure>
+      <a class="img" href="group_bbox.png" target="_blank" rel="noopener"><img src="group_bbox.png" alt="选中群组时出现的蓝色包围框"></a>
+      <figcaption><span class="tag official">官方</span><strong>建组</strong>：编组后选中会出现蓝色包围框，表示它是一个独立物体，不会和别的几何粘连。<span class="src">来源：<a href="https://help.sketchup.com/en/sketchup/grouping-geometry" target="_blank" rel="noopener">Grouping Geometry</a></span></figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="basics">
+  <div class="sec-head">
+    <span class="time">10–15 分 · 基本操作</span>
+    <h2>基本操作：官方动图</h2>
+    <p>环绕、平移、移动三张是官方 GIF 动图，可以直接放进 PPT。鼠标操作：按住滚轮拖动是环绕，<kbd>Shift</kbd> + 按住滚轮是平移，滚动滚轮是缩放（据小木屋教案）。</p>
+  </div>
+  <div class="grid">
+    <figure>
+      <a class="img" href="orbit.gif" target="_blank" rel="noopener"><img src="orbit.gif" alt="环绕视角的动图"></a>
+      <figcaption><span class="tag official">官方 · 动图</span>环绕（Orbit）。<span class="src">来源：<a href="https://help.sketchup.com/en/sketchup/using-your-mouse" target="_blank" rel="noopener">Using Your Mouse</a></span></figcaption>
+    </figure>
+    <figure>
+      <a class="img" href="pan.gif" target="_blank" rel="noopener"><img src="pan.gif" alt="平移视角的动图"></a>
+      <figcaption><span class="tag official">官方 · 动图</span>平移（Pan）。<span class="src">来源：同上</span></figcaption>
+    </figure>
+    <figure>
+      <a class="img" href="move.gif" target="_blank" rel="noopener"><img src="move.gif" alt="移动物体的动图"></a>
+      <figcaption><span class="tag official">官方 · 动图</span>移动（Move）。<span class="src">来源：<a href="https://help.sketchup.com/en/sketchup/moving-entities-around" target="_blank" rel="noopener">Moving Entities Around</a></span></figcaption>
+    </figure>
+    <figure>
+      <a class="img" href="triple_click.png" target="_blank" rel="noopener"><img src="triple_click.png" alt="三击选中整个物体"></a>
+      <figcaption><span class="tag official">官方</span>选择：单击选一个面，双击选面和它的边，三击选中相连的整个物体。<span class="src">来源：<a href="https://help.sketchup.com/en/sketchup/selecting-geometry" target="_blank" rel="noopener">Selecting Geometry</a></span></figcaption>
+    </figure>
+    <figure>
+      <a class="img" href="offset.png" target="_blank" rel="noopener"><img src="offset.png" alt="偏移工具把面的边向内偏移"></a>
+      <figcaption><span class="tag official">官方</span>偏移（Offset）：把面的边整体向内或向外复制一圈，小木屋第 4 步要用。<span class="src">来源：<a href="https://help.sketchup.com/en/sketchup/offsetting-line-existing-geometry" target="_blank" rel="noopener">Offsetting a Line</a></span></figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="cabin">
+  <div class="sec-head">
+    <span class="time">15–33 分 · 搭小木屋</span>
+    <h2>搭小木屋：官方教案和起始文件</h2>
+    <p>官方 SketchUp for Schools 初级课「Design Your Own Cabin」，标注时长 45 分钟，共 22 页，每一步都有截图。教案用英制尺寸和网页版界面，课上换成毫米模板即可。</p>
+  </div>
+  <div class="grid">
+    <figure>
+      <a class="img" href="cabin_start.jpg" target="_blank" rel="noopener"><img src="cabin_start.jpg" alt="官方起始文件预览：比例人、露营物品和地面上 10 英尺乘 20 英尺的尺寸标注"></a>
+      <figcaption><span class="tag official">官方起始文件</span>3D Warehouse 上由 SketchUp 官方账号发布，里面有比例人、露营物品，地面上已标出 10′×20′ 的位置。下载需要登录 Trimble ID。<span class="tag check">待验证</span>我这边下载被要求登录，没能打开文件确认内容。<span class="src">下载：<a href="https://3dwarehouse.sketchup.com/model/26db9e07-d33d-4a89-98a6-9b8654a39568" target="_blank" rel="noopener">3D Warehouse · Design Your Own Cabin</a></span></figcaption>
+    </figure>
+    <figure>
+      <a class="img" href="cabin_p-10.png" target="_blank" rel="noopener"><img src="cabin_p-10.png" alt="教案第 10 页：完成后的小木屋"></a>
+      <figcaption><span class="tag official">官方教案</span>完成效果：坡屋顶、掏空的室内、台阶、屋檐。<span class="src">教案：<a href="https://docs.google.com/document/d/1J4TVe1BYtEShqdCh7fZFvXTLYe5KcmcIZeSCN6fpUKI/edit" target="_blank" rel="noopener">Google Docs</a> · 视频：<a href="https://www.youtube.com/watch?v=OCWYZwIVTf8" target="_blank" rel="noopener">YouTube</a> · <a href="https://docs.google.com/document/d/1J4TVe1BYtEShqdCh7fZFvXTLYe5KcmcIZeSCN6fpUKI/edit" target="_blank" rel="noopener">PDF 全文</a></span></figcaption>
+    </figure>
+  </div>
+  <div class="sec-head">
+    <h3>教案逐页（第 11–19 页，点开看大图）</h3>
+  </div>
+  <div class="pages">
+    <a href="cabin_p-11.png" target="_blank" rel="noopener"><img src="cabin_p-11.png" alt="第 11 页"><span>p11 熟悉界面、矩形工具</span></a>
+    <a href="cabin_p-12.png" target="_blank" rel="noopener"><img src="cabin_p-12.png" alt="第 12 页"><span>p12 从原点画平面并输入尺寸</span></a>
+    <a href="cabin_p-13.png" target="_blank" rel="noopener"><img src="cabin_p-13.png" alt="第 13 页"><span>p13 推拉成体、画屋脊线</span></a>
+    <a href="cabin_p-14.png" target="_blank" rel="noopener"><img src="cabin_p-14.png" alt="第 14 页"><span>p14 移动屋脊线成坡顶、偏移</span></a>
+    <a href="cabin_p-15.png" target="_blank" rel="noopener"><img src="cabin_p-15.png" alt="第 15 页"><span>p15 推出室内、画台阶</span></a>
+    <a href="cabin_p-16.png" target="_blank" rel="noopener"><img src="cabin_p-16.png" alt="第 16 页"><span>p16 推台阶、做屋檐</span></a>
+    <a href="cabin_p-17.png" target="_blank" rel="noopener"><img src="cabin_p-17.png" alt="第 17 页"><span>p17 推拉屋檐、双击重复</span></a>
+    <a href="cabin_p-18.png" target="_blank" rel="noopener"><img src="cabin_p-18.png" alt="第 18 页"><span>p18 床架：为什么要编组</span></a>
+    <a href="cabin_p-19.png" target="_blank" rel="noopener"><img src="cabin_p-19.png" alt="第 19 页"><span>p19 编组、移动、搬进屋</span></a>
+  </div>
+</section>
+
+<section id="ai">
+  <div class="sec-head">
+    <span class="time">33–45 分 · AI 部分</span>
+    <h2>AI 部分：两条路线的官方说明</h2>
+  </div>
+  <ul class="links">
+    <li><a href="https://help.sketchup.com/en/sketchup-claude-connector" target="_blank" rel="noopener">SketchUp Connector for Claude</a>：方案二。官方说明里有提示词建议、单位说明和限制（只新建文件、只支持 Claude、免费用户 30 个）。</li>
+    <li><a href="https://github.com/zinin/sketchup-mcp2" target="_blank" rel="noopener">sketchup-mcp2</a>：方案一。README 有安装步骤和 Claude Code 的配置示例；仓库里还有一份 Ruby 建模“菜谱”，包括坡屋顶、墙体，可作为 AI 建模的参考。</li>
+    <li><a href="https://help.sketchup.com/en/sketchup/creating-scenes" target="_blank" rel="noopener">Creating Scenes</a>、<a href="https://help.sketchup.com/en/sketchup/slicing-model-peer-inside" target="_blank" rel="noopener">Section Planes</a>：提示词里“表达”那一段会用到的两个功能，名词出处。</li>
+  </ul>
+</section>
+
+<section id="next">
+  <div class="sec-head">
+    <span class="time">45–55 分 · 学习方向</span>
+    <h2>学习方向：官方课程和中文入口</h2>
+    <p>官方原来的 SketchUp Campus 已经并入 Trimble Learn，现在的基础课是下面五门。前两门的时长和内容是我打开课程页确认过的，后三门只核对了名称。</p>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>课程</th><th>内容</th><th>时长</th></tr></thead>
+      <tbody>
+        <tr><td><a href="https://learn.trimble.com/learn/courses/9550/sketchup-fundamentals-1-introduction-to-trimble-sketchup" target="_blank" rel="noopener">Fundamentals 1 · 入门</a></td><td>界面、新建文件、导航（缩放/平移/环绕）、托盘与右键菜单、相机、比例人、测量、偏好设置</td><td>约 2 小时</td></tr>
+        <tr><td><a href="https://learn.trimble.com/learn/courses/9794/sketchup-fundamentals-2-geometry-modeling-in-sketchup" target="_blank" rel="noopener">Fundamentals 2 · 几何建模</a></td><td>项目设置、二维几何、精确建模、推拉、移动变换、阵列、卷尺、选择管理</td><td>约 11 小时</td></tr>
+        <tr><td><a href="https://forums.sketchup.com/t/new-elearning-sketchup-fundamentals-3-exploring-visualization/347711" target="_blank" rel="noopener">Fundamentals 3 · 可视化</a></td><td>Exploring Visualization <span class="tag check">待验证</span></td><td>—</td></tr>
+        <tr><td><a href="https://forums.sketchup.com/t/new-elearning-sketchup-fundamentals-4-organization-essentials/348037" target="_blank" rel="noopener">Fundamentals 4 · 组织</a></td><td>Organization Essentials <span class="tag check">待验证</span></td><td>—</td></tr>
+        <tr><td><a href="https://forums.sketchup.com/t/new-elearning-sketchup-fundamentals-5-sketchup-enablement/348295" target="_blank" rel="noopener">Fundamentals 5</a></td><td>SketchUp Enablement <span class="tag check">待验证</span></td><td>—</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <ul class="links">
+    <li><a href="https://help.sketchup.com/en/sketchup-education/available-curriculum" target="_blank" rel="noopener">SketchUp for Schools 全部课程</a>：入门到高级共 25 门，每门都有视频和教案，小木屋就是从这里来的。</li>
+    <li><a href="https://help.sketchup.com/zh-CN/sketchup/managing-dialog-boxes-mac-os" target="_blank" rel="noopener">帮助中心简体中文入口</a>：目录部分已翻译，很多正文仍是英文。</li>
+    <li><a href="https://www.sketchupchina.com/" target="_blank" rel="noopener">天宝 SketchUp 中国官网</a>：中文名“草图大师”，有试用和资讯。<span class="tag check">待验证</span>没找到官方的中文入门课，B 站教程需要你再挑。</li>
+  </ul>
+</section>
+</div>

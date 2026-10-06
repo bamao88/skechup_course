@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" font-family="sans-serif">
+<rect width="640" height="360" fill="#f4f6f8"/>
+<g font-size="40" text-anchor="middle" fill="#1d2530">
+<rect x="90" y="90" width="90" height="90" rx="12" fill="#fff" stroke="#333" stroke-width="2"/><text x="135" y="150">⌘</text>
+<rect x="200" y="90" width="90" height="90" rx="12" fill="#fff" stroke="#333" stroke-width="2"/><text x="245" y="150">Z</text>
+<rect x="370" y="90" width="70" height="90" rx="12" fill="#fff" stroke="#333" stroke-width="2"/><text x="405" y="150">⌘</text>
+<rect x="450" y="90" width="70" height="90" rx="12" fill="#fff" stroke="#333" stroke-width="2"/><text x="485" y="150">⇧</text>
+<rect x="530" y="90" width="70" height="90" rx="12" fill="#fff" stroke="#333" stroke-width="2"/><text x="565" y="150">Z</text>
+</g>
+<text x="190" y="230" text-anchor="middle" font-size="22" fill="#333">撤销</text>
+<text x="485" y="230" text-anchor="middle" font-size="22" fill="#333">重做</text>
+<text x="620" y="24" text-anchor="end" font-size="14" fill="#888">示意图（占位）</text>
+</svg>

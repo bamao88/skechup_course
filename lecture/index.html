@@ -1,0 +1,397 @@
+<title>SketchUp 课堂讲稿</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;700&family=Noto+Sans+SC:wght@400;500;700&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: one reading column; each knowledge point is a row, pictures left (paged), script right (editable). Axis colours mark the three text roles. */
+:root {
+  --bg: #f2f4f6;
+  --surface: #ffffff;
+  --sunk: #e9edf1;
+  --fg: #1b232d;
+  --muted: #5d6877;
+  --line: #d6dce3;
+  --accent: #1f5fbf;
+  --say: #1f5fbf;
+  --do: #2f7d3e;
+  --model: #b5462f;
+  --model-bg: #fbeee9;
+  --edit-bg: #fffbe8;
+  --ok: #2f7d3e;
+  --warn: #9a6a00;
+  --font-display: "Noto Serif SC", "Songti SC", serif;
+  --font-body: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #11161c; --surface: #19202a; --sunk: #222b37; --fg: #e4e9ef; --muted: #9aa6b5; --line: #2c3644;
+    --accent: #79a9ff; --say: #79a9ff; --do: #74c985; --model: #ff9b85; --model-bg: #33211c; --edit-bg: #2b2716;
+    --ok: #74c985; --warn: #e6b94f; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #11161c; --surface: #19202a; --sunk: #222b37; --fg: #e4e9ef; --muted: #9aa6b5; --line: #2c3644;
+  --accent: #79a9ff; --say: #79a9ff; --do: #74c985; --model: #ff9b85; --model-bg: #33211c; --edit-bg: #2b2716;
+  --ok: #74c985; --warn: #e6b94f; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 15px; line-height: 1.7; }
+.wrap { max-width: 1180px; margin: 0 auto; padding-inline: 20px; padding-block: 0 80px; }
+h1, h2, h3 { margin: 0; text-wrap: balance; }
+h1 { font-family: var(--font-display); font-size: 1.9rem; line-height: 1.3; }
+h2 { font-family: var(--font-display); font-size: 1.45rem; line-height: 1.35; }
+h3 { font-size: 1.12rem; font-weight: 700; }
+p { margin: 0; }
+a { color: var(--accent); }
+button { font: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); border-bottom: 1px solid var(--line); }
+.bar-in { max-width: 1180px; margin: 0 auto; padding: 10px 20px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; }
+.bar nav { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: .9rem; flex: 1 1 auto; min-width: 0; }
+.bar nav a { text-decoration: none; color: var(--muted); }
+.bar nav a:hover { color: var(--fg); }
+.save { display: flex; align-items: center; gap: 10px; font-size: .85rem; }
+.status { color: var(--muted); }
+.status[data-s="dirty"] { color: var(--warn); }
+.status[data-s="ok"] { color: var(--ok); }
+.status[data-s="err"], .status[data-s="ro"] { color: var(--model); }
+.btn { border: 1px solid var(--line); background: var(--surface); color: var(--fg); border-radius: 6px; padding: 4px 12px; cursor: pointer; }
+.btn:hover:not(:disabled) { border-color: var(--accent); }
+.btn:disabled { opacity: .5; cursor: default; }
+
+header.top { display: grid; gap: 10px; padding-block: 32px 8px; }
+.lede { color: var(--muted); max-width: 70ch; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: .85rem; color: var(--muted); }
+.legend span::before { content: ""; display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; background: var(--c); }
+
+section.block { padding-top: 48px; display: grid; gap: 18px; scroll-margin-top: 56px; }
+.row { scroll-margin-top: 72px; }
+.block-head { display: grid; gap: 6px; }
+.eyebrow { font-family: var(--font-mono); font-size: .75rem; letter-spacing: .06em; color: var(--muted); }
+.intro { max-width: 75ch; color: var(--muted); }
+
+.model-card { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--model); border-radius: 6px; padding: 16px 18px; display: grid; gap: 12px; }
+.model-card .file { font-family: var(--font-mono); color: var(--model); font-size: .95rem; }
+.table-wrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: .88rem; }
+th, td { text-align: left; vertical-align: top; padding: 8px 10px; border-bottom: 1px solid var(--line); }
+th { color: var(--muted); font-weight: 500; font-size: .8rem; white-space: nowrap; }
+td:first-child { font-weight: 700; white-space: nowrap; }
+
+.row { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 28px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 18px; }
+.gallery { display: grid; gap: 8px; align-content: start; min-width: 0; }
+.stage { position: relative; background: #fff; border: 1px solid var(--line); border-radius: 6px; aspect-ratio: 4 / 3; display: grid; place-items: center; overflow: hidden; }
+.stage img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
+.ph-badge { position: absolute; top: 8px; left: 8px; font-size: .72rem; background: var(--warn); color: #fff; padding: 1px 8px; border-radius: 3px; }
+.pager { display: flex; align-items: center; gap: 8px; }
+.pager .count { font-family: var(--font-mono); font-size: .8rem; color: var(--muted); min-width: 3.5em; text-align: center; }
+.pager .btn { padding: 2px 10px; }
+.cap { font-size: .82rem; color: var(--muted); flex: 1 1 auto; min-width: 0; }
+
+.text { display: grid; gap: 14px; align-content: start; min-width: 0; }
+.title-line { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.num { font-family: var(--font-mono); font-size: .8rem; color: var(--muted); }
+.field { display: grid; gap: 4px; }
+.label { font-size: .75rem; font-weight: 700; letter-spacing: .08em; color: var(--c); }
+.say .label { --c: var(--say); }
+.do .label { --c: var(--do); }
+.model .label { --c: var(--model); }
+.say .ed { font-size: 1.05rem; line-height: 1.85; border-left: 3px solid var(--say); padding-left: 12px; }
+.do .ed { font-size: .92rem; color: var(--fg); }
+.model .ed { font-size: .86rem; background: var(--model-bg); color: var(--fg); padding: 6px 10px; border-radius: 4px; }
+
+.ed { white-space: pre-wrap; overflow-wrap: anywhere; border-radius: 4px; outline: 1px dashed transparent; outline-offset: 3px; transition: outline-color .15s, background-color .15s; }
+.ed:hover { outline-color: var(--line); }
+.ed:focus { outline: 1px solid var(--accent); background-color: var(--edit-bg); }
+.ed:empty::before { content: "（点击输入）"; color: var(--muted); }
+body.readonly .ed { cursor: default; }
+
+@media (max-width: 760px) {
+  .row { grid-template-columns: 1fr; gap: 16px; padding: 14px; }
+  h1 { font-size: 1.55rem; }
+}
+@media (prefers-reduced-motion: reduce) { .ed { transition: none; } }
+</style>
+
+<div class="bar">
+  <div class="bar-in">
+    <nav id="nav" aria-label="目录"><a href="#model">模型规划</a></nav>
+    <div class="save">
+      <span class="status" id="status" data-s="idle" role="status">文字可直接点击修改</span>
+      <button class="btn" id="saveBtn" type="button" disabled>保存</button>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <header class="top">
+    <h1>SketchUp 课堂讲稿</h1>
+    <p class="lede">一行一个知识点：左边是图，可以翻页；右边是要讲的话。所有文字都能直接点击修改，停手几秒后自动保存，也可以点右上角「保存」。</p>
+    <div class="legend">
+      <span style="--c: var(--say)">讲稿：课上说的话</span>
+      <span style="--c: var(--do)">操作：手上做什么</span>
+      <span style="--c: var(--model)">模型：用到模型文件的哪一部分</span>
+      <span style="--c: var(--warn)">示意图（占位）</span>
+    </div>
+  </header>
+  <div id="root"></div>
+</div>
+
+<script type="application/json" id="seed">{"version": 1, "model": {"file": "SketchUp课堂演示.skp", "intro": "所有提前准备的内容都放在这一个文件里（建筑 · 毫米模板）。每个部分一个标记（Tag），每个讲解点一个场景（Scene）：课上点顶部的场景标签就跳到对应视角，并只显示该部分的标记。小木屋要从原点开始搭，所以小木屋场地放在原点，阶段 2 的几块区域沿红轴负方向排开。以下是文字规划，模型待制作。", "rows": [{"scene": "1 基本设置", "tag": "（无）", "content": "空白视角：原点、三轴、比例人", "where": "原点附近", "use": "阶段 1：界面、看（环绕 / 平移 / 缩放）、大工具集"}, {"scene": "2-1 线与面", "tag": "2A 练习区", "content": "一块空地，现场画点、线、面、体", "where": "红轴 −4000 至 −8000", "use": "阶段 2：A1–A5、B4、B5"}, {"scene": "2-2 粘连与建组", "tag": "2B 粘连方块", "content": "两个没编组的 1000 立方体，相隔 500", "where": "红轴 −10000 至 −13000", "use": "阶段 2：A6–A8"}, {"scene": "2-3 基本操作", "tag": "2C 操作练习", "content": "一个已编组的方块、一个已编组的圆柱", "where": "红轴 −15000 至 −19000", "use": "阶段 2：B2–B3（选、移动与复制）"}, {"scene": "3-0 小木屋场地", "tag": "3 起始场地", "content": "导入官方起始文件：比例人、露营用品、地面 10′×20′ 标记", "where": "原点", "use": "阶段 3：第 0–8 步"}, {"scene": "3-备用 完成态", "tag": "3 完成态（平时隐藏）", "content": "自己提前搭好的完成态小木屋，整体编组", "where": "红轴 +9000", "use": "阶段 3 卡住时切换；阶段 4 演示工具向导"}]}, "stages": [{"id": "s1", "name": "阶段 1 · 基本设置", "time": "约 5 分钟", "intro": "让学生的 SketchUp 和你的一样：毫米单位、工具都摆出来，并认识界面上最重要的两处。开场说一句：“带了电脑的同学可以跟着我一起做。”", "rows": [{"id": "s1-1", "title": "模板", "images": [{"src": "img/s1_1_template_home.png", "cap": "主页上的模板列表 · 官方 Model Templates", "ph": false}, {"src": "img/s1_5_default_template.png", "cap": "设置里的默认模板列表 · 官方 Preferences（Windows 界面）", "ph": false}], "do": "打开 SketchUp → 主页模板列表选「建筑 · 毫米」（Architectural · Millimeter）；没看到就点「更多模板」。\n（可选）SketchUp › 设置 › 模板，设为默认。", "say": "大家先跟我新建一个模型。这里选的模板，决定了单位、样式这些默认设置。我们做建筑，一律选「建筑 · 毫米」，和制图课一样用毫米。回家可以在设置里把它设成默认，以后每次新建都是它。", "model": "不用模型文件：新建空白模型演示。"}, {"id": "s1-2", "title": "界面", "images": [{"src": "img/s1_2_interface.png", "cap": "界面六个区域 · 官方 Navigating the Interface（Windows 界面）", "ph": false}, {"src": "img/s1_2_measurements_box.png", "cap": "右下角的数值框 · 官方 Managing Units", "ph": false}], "do": "对着截图上的 ①–⑥ 依次指一遍，每块一句话，在状态栏停留最久。\nMac 上演示第 ⑥ 块：窗口 › 材质，弹出一个浮动面板。", "say": "界面看着东西多，先花一分钟认一遍，每块一句话：\n① 标题栏：显示文件名和 SketchUp 版本。\n② 菜单栏：几乎所有命令都在这里，找不到的功能先翻菜单。\n③ 工具栏：常用工具的按钮，等会儿我们会把大工具集打开。\n④ 绘图区：建模的地方。红绿蓝三条轴就是三个方向，交点是原点；中间这个人是比例人，用来对照大小。\n⑤ 状态栏：今天最要盯的一处。左边是提示，拿起任何工具它都会告诉你下一步做什么；右下角是数值框，画的时候直接敲数字定尺寸。\n⑥ 面板：材质、标记、场景这些设置都在这里。Windows 上默认停在右侧；Mac 上从「窗口」菜单打开，是一个个浮动的小窗口。", "model": "场景「1 基本设置」：原点、红绿蓝三轴、比例人，无其他几何。"}, {"id": "s2-b1", "title": "看：环绕、平移、缩放", "images": [{"src": "img/s2_mouse_mac.png", "cap": "鼠标操作 · 官方简体中文 Mac 速查表", "ph": false}, {"src": "img/s2_b1_orbit.gif", "cap": "环绕观察 · 官方 Using Your Mouse", "ph": false}, {"src": "img/s2_b1_pan.gif", "cap": "平移 · 官方 Using Your Mouse", "ph": false}, {"src": "img/s2_view_tools_mac.png", "cap": "视图工具，含「缩放范围」· 官方 Mac 速查表", "ph": false}], "do": "按住滚轮拖动 = 环绕；Shift + 按住滚轮拖动 = 平移；滚动滚轮 = 缩放；双击滚轮 = 视图重新居中。\n找不到模型时点「缩放范围」。", "say": "先学会看。鼠标三件事：按住滚轮转，加 Shift 平移，滚轮缩放。触控板几乎没法用 SketchUp，请准备带滚轮的鼠标。", "model": "场景「1 基本设置」：对着原点和比例人转一转。"}, {"id": "s1-4", "title": "大工具集", "images": [{"src": "img/s1_large_toolset_mac.png", "cap": "大工具集 · 官方简体中文 Mac 速查表", "ph": false}], "do": "视图 › 工具选项板 › 大工具集。", "say": "默认工具栏只有几个工具。打开大工具集，常用的都在这里了。工具名后面括号里的字母是快捷键。今天只用到六个：L 线、R 矩形、P 推拉、M 移动、F 偏移、E 擦除。", "model": "不用模型文件。"}]}, {"id": "s2", "name": "阶段 2 · 基本功能", "time": "约 12 分钟", "intro": "先用 8 个小演示讲清楚底层规律：SketchUp 里只有线和面两种东西；再讲 4 个基本操作。", "rows": [{"id": "s2-a1", "title": "点：推断点", "images": [{"src": "img/s2_a1_inference.png", "cap": "画线时吸附到边的中点 · 官方 Drawing Basics", "ph": false}], "do": "按 L 拿起直线工具，鼠标移到原点和已有的边上停一下，看彩色小圆点和「端点」「中点」「在边线上」等提示。", "say": "SketchUp 里没有单独的「点」。点就是这些自动吸附的位置：端点、中点、交点。精确建模靠的就是它，等会儿画屋脊线，就要找中点。", "model": "场景「2-1 线与面」· 标记「2A 练习区」：一块空地，现场画。"}, {"id": "s2-a2", "title": "线：颜色就是方向", "images": [{"src": "img/s2_a2_line_axis.png", "cap": "沿蓝轴画线，提示 On Blue Axis · 官方 Drawing Basics", "ph": false}], "do": "从一点出发画线，沿红、绿、蓝轴移动，线会变成对应颜色；点一下后直接敲 1000 回车。", "say": "线变红、变绿、变蓝，说明它正对着三个方向。长度不用拖准，直接敲数字。", "model": "场景「2-1 线与面」· 标记「2A 练习区」：一块空地，现场画。"}, {"id": "s2-a3", "title": "面：线一闭合，面就出现", "images": [{"src": "img/s2_a3_face.png", "cap": "线围合后出现的面 · 官方 Drawing Basics", "ph": false}, {"src": "img/s2_a3_erase.png", "cap": "擦掉一条边（中）与只删一个面（右）· 官方 Drawing Basics", "ph": false}], "do": "连续画 4 条线回到起点，面自动出现。\n按 E 擦掉一条边，面跟着消失；⌘Z 撤销回来。", "say": "这是整个软件最核心的规律：线围成一圈，面就自动出现；边没了，面也跟着没了。SketchUp 里其实只有线和面两种东西。", "model": "场景「2-1 线与面」· 标记「2A 练习区」：一块空地，现场画。"}, {"id": "s2-a4", "title": "体：面推拉出来", "images": [{"src": "img/s2_a4_pushpull.png", "cap": "推拉把面拉成体 · 官方 Push/Pull", "ph": false}, {"src": "img/s2_a4_pushthrough.png", "cap": "把面推到背面，开出一个洞 · 官方 Push/Pull", "ph": false}], "do": "按 P 推拉，点面往上拉，敲 1000 回车。\n在侧面画一个小矩形，一直推到对面，开出一个洞。", "say": "体不是新东西，就是推拉出来的一圈面。推到底就开洞，等会儿掏空小木屋的室内就用这一招。", "model": "场景「2-1 线与面」· 标记「2A 练习区」：一块空地，现场画。"}, {"id": "s2-a5", "title": "分割：画一条线，面变两块", "images": [{"src": "img/s2_a5_split.png", "cap": "在面上画线把面分开 · 官方 Splitting", "ph": false}], "do": "在体的顶面上，从一条边画线到对边，面被分成两块；只推拉其中一块。", "say": "画一条线，面就分成两块，每块都能单独操作。小木屋的坡屋顶就是从这里来的。", "model": "场景「2-1 线与面」· 标记「2A 练习区」：一块空地，现场画。"}, {"id": "s2-a6", "title": "粘连", "images": [{"src": "img/s2_a6_sticky.jpg", "cap": "没编组的床架放进屋里，和屋子粘成一体 · 官方小木屋教案 p18", "ph": false}], "do": "切到场景 2-2。用 M 把方块 B 移到紧贴方块 A，然后在 B 上三击：A 也一起被选中了。", "say": "挨在一起的线和面会粘成一体，以后就很难分开了。", "model": "场景「2-2 粘连与建组」· 标记「2B 粘连方块」：两个没编组的 1000 立方体，相隔 500。"}, {"id": "s2-a7", "title": "建组", "images": [{"src": "img/s2_a7_make_group.jpg", "cap": "右键菜单里的「创建群组」· 官方小木屋教案 p19", "ph": false}, {"src": "img/s2_a7_group_bbox.png", "cap": "选中群组时的蓝色包围框 · 官方 Grouping", "ph": false}], "do": "⌘Z 撤销回分开的状态。三击 B 选中整体 → 右键 › 创建群组。\n再移过去贴着 A，三击，这次只选中 B，外面有蓝色包围框。", "say": "一个物体，就打一个组。组是独立的东西，不会和别的东西粘在一起。", "model": "场景「2-2 粘连与建组」· 标记「2B 粘连方块」：两个没编组的 1000 立方体，相隔 500。"}, {"id": "s2-a8", "title": "炸开", "images": [{"src": "img/ph_explode.svg", "cap": "示意图（占位）：群组炸开后变回散的线和面", "ph": true}], "do": "右键群组 › 炸开模型，包围框消失，又变回散的线和面。", "say": "组随时能拆开，所以放心打组。小结一句：点是吸附位置，线围成面，面推成体，物体要打组。", "model": "场景「2-2 粘连与建组」· 标记「2B 粘连方块」：两个没编组的 1000 立方体，相隔 500。"}, {"id": "s2-b2", "title": "选：单击、双击、三击", "images": [{"src": "img/s2_b2_double.png", "cap": "双击：选中面和它的边 · 官方 Selecting", "ph": false}, {"src": "img/s2_b2_triple.png", "cap": "三击：选中整个物体 · 官方 Selecting", "ph": false}], "do": "空格切到选择工具。单击选一个面或一条边；双击选面和它的边；三击选中相连的整个物体。按住 Shift 点击是加选或减选。", "say": "三击最常用：选中整个物体，然后打组。", "model": "场景「2-3 基本操作」· 标记「2C 操作练习」：一个已编组的方块、一个已编组的圆柱。"}, {"id": "s2-b3", "title": "移动与复制", "images": [{"src": "img/s2_b3_move.gif", "cap": "移动物体 · 官方 Moving Entities", "ph": false}], "do": "按 M，点一下物体、移到新位置再点一下。\n移动时按一下 Option 变成复制；复制出一个后敲 3x 回车，得到等距的 3 个。", "say": "Mac 上复制按 Option，Windows 上按 Ctrl。看教程时遇到 Ctrl，在 Mac 上多半换成 Option。", "model": "场景「2-3 基本操作」· 标记「2C 操作练习」：一个已编组的方块、一个已编组的圆柱。"}, {"id": "s2-b4", "title": "输入尺寸", "images": [{"src": "img/s1_2_measurements_box.png", "cap": "右下角的数值框 · 官方 Managing Units", "ph": false}], "do": "按 R 画矩形，点第一个角后直接敲 3000,6000 回车。\n推拉、移动、偏移也一样：动作开始后敲数字回车。不用点数值框，直接敲键盘。", "say": "鼠标给大概的形状和方向，键盘给精确尺寸。这是等会儿搭小木屋用得最多的一招。", "model": "场景「2-1 线与面」· 标记「2A 练习区」：一块空地，现场画。"}, {"id": "s2-b5", "title": "撤销", "images": [{"src": "img/ph_undo.svg", "cap": "示意图（占位）：撤销 ⌘Z，重做 ⌘⇧Z", "ph": true}], "do": "⌘Z 撤销，⌘⇧Z 重做。", "say": "大胆试，错了就撤销。", "model": "场景「2-1 线与面」· 标记「2A 练习区」：一块空地，现场画。"}]}, {"id": "s3", "name": "阶段 3 · 搭小木屋", "time": "约 17 分钟", "intro": "用官方 SketchUp for Schools 案例「Design Your Own Cabin」，把阶段 2 的规律用在一栋房子上。尺寸已从英制换成整数毫米（近似值，待实测）。每步约 2 分钟，超时就砍第 6、7 步。", "rows": [{"id": "s3-0", "title": "0 · 看目标，改单位", "images": [{"src": "img/s3_0_final.jpg", "cap": "完成效果 · 官方小木屋教案", "ph": false}, {"src": "img/s3_0_start.jpg", "cap": "官方起始文件预览 · 3D Warehouse", "ph": false}], "do": "先展示完成图。切到场景 3-0，确认 窗口 › 模型信息 › 单位 是十进制 / 毫米。", "say": "今天要搭的就是这个小木屋。场地上已经放好了比例人和露营用品。这是别人做的文件，单位可能是英制，所以先到 窗口 › 模型信息 › 单位 看一眼，改成十进制、毫米。以后打开任何别人的文件，都先看这里。", "model": "场景「3-0 小木屋场地」· 标记「3 起始场地」；完成图可切到场景「3-备用 完成态」。"}, {"id": "s3-1", "title": "1 · 画平面", "images": [{"src": "img/s3_1_rect.jpg", "cap": "从原点画矩形 · 官方小木屋教案 p12", "ph": false}], "do": "R 矩形，在原点（三轴交点）点一下，往标记方向拉，敲 3000,6000 回车。", "say": "从原点开始，尺寸用敲的。", "model": "场景「3-0 小木屋场地」· 标记「3 起始场地」：在原点现场搭。"}, {"id": "s3-2", "title": "2 · 推成体", "images": [{"src": "img/s3_2_pushup.jpg", "cap": "推拉成体 · 官方小木屋教案 p13", "ph": false}], "do": "P 推拉，点矩形往上拉，敲 3000 回车。", "say": "面推出来，就是一个体。", "model": "场景「3-0 小木屋场地」· 标记「3 起始场地」：在原点现场搭。"}, {"id": "s3-3", "title": "3 · 坡屋顶", "images": [{"src": "img/s3_3a_ridge.jpg", "cap": "从中点到中点画屋脊线 · 官方小木屋教案 p13", "ph": false}, {"src": "img/s3_3b_roof.jpg", "cap": "屋脊线上移后形成坡屋顶 · 官方小木屋教案 p14", "ph": false}], "do": "L 从顶面一条短边的中点画到对边中点（看到「中点」提示再点）。\nM 点这条线，沿蓝轴往上移，敲 1200 回车。", "say": "没有专门的屋顶工具。顶面被这条线分成两块，线一抬高，两块面就跟着变斜。改一条线，面跟着变，这就是刚才说的规律。", "model": "场景「3-0 小木屋场地」· 标记「3 起始场地」：在原点现场搭。"}, {"id": "s3-4", "title": "4 · 偏移出墙厚", "images": [{"src": "img/s3_4_offset.jpg", "cap": "正立面向内偏移 · 官方小木屋教案 p14", "ph": false}], "do": "F 偏移，点山墙面（尖顶那一面）的边，往里移，敲 300 回车。", "say": "偏移就是把一圈边整体往里复制一份，墙厚就是这么来的。", "model": "场景「3-0 小木屋场地」· 标记「3 起始场地」：在原点现场搭。"}, {"id": "s3-5", "title": "5 · 推出室内", "images": [{"src": "img/s3_5_hollow.jpg", "cap": "把内侧面推进去，掏出室内 · 官方小木屋教案 p15", "ph": false}], "do": "P 点偏移出的内侧面往里推，敲 5700 回车，留 300 后墙。", "say": "推进去就是室内；推到底就是开洞。", "model": "场景「3-0 小木屋场地」· 标记「3 起始场地」：在原点现场搭。"}, {"id": "s3-6", "title": "6 · 台阶（可砍）", "images": [{"src": "img/s3_6a_step_lines.jpg", "cap": "画台阶的竖线 · 官方小木屋教案 p15", "ph": false}, {"src": "img/s3_6b_step.jpg", "cap": "推出台阶 · 官方小木屋教案 p16", "ph": false}], "do": "1. L 从入口两侧的内侧底角往下画竖线到地面。\n2. 从两条竖线的中点画一条横线，把这块面分成上下两块。\n3. P 把下面一块往外拉 300。\n4. E 擦掉台阶上方多余的两段竖线。", "say": "又是分割加推拉：先画线把面分开，再单独推其中一块。", "model": "场景「3-0 小木屋场地」· 标记「3 起始场地」：在原点现场搭。"}, {"id": "s3-7", "title": "7 · 屋檐（可砍）", "images": [{"src": "img/s3_7a_eave_offset.jpg", "cap": "选中两条斜边后往外偏移 · 官方小木屋教案 p16", "ph": false}, {"src": "img/s3_7b_eave_back.jpg", "cap": "把屋檐往后推到后墙 · 官方小木屋教案 p17", "ph": false}, {"src": "img/s3_7c_eave_done.jpg", "cap": "屋檐完成 · 官方小木屋教案 p17", "ph": false}], "do": "1. 空格选择，按住 Shift 点选正面两条斜屋面边。\n2. F 往外偏移 150。\n3. L 从墙角连到偏移线端点，补成一条面。\n4. P 把这条面往后推，吸附到后墙端点时点击。\n5. P 把正面往外拉 300；侧面和后面双击重复。", "say": "推拉工具会记住上一次的距离，双击就能重复。", "model": "场景「3-0 小木屋场地」· 标记「3 起始场地」：在原点现场搭。"}, {"id": "s3-8", "title": "8 · 床架与编组", "images": [{"src": "img/s3_8a_bed_sticky.jpg", "cap": "没编组的床架移进屋里 · 官方小木屋教案 p18", "ph": false}, {"src": "img/s3_8b_bed_moved.jpg", "cap": "编组后移进屋里 · 官方小木屋教案 p19", "ph": false}], "do": "1. 在屋外地上 R 画 1800,900，P 拉高 300。\n2. M 移进屋里，三击床架：屋子也被选中了，粘住了。\n3. ⌘Z 撤销。三击床架 → 右键 › 创建群组 → 再移进屋里。", "say": "这就是刚才说的粘连。一个物体，一个组。场地上的露营用品，也可以一个个打组搬进屋，留给大家课后练。", "model": "场景「3-0 小木屋场地」· 标记「3 起始场地」：在原点现场搭。"}]}, {"id": "s4", "name": "阶段 4 · 自学", "time": "约 5 分钟", "intro": "给学生四样自己学下去的东西：软件里的两个帮手、一张速查表、一套视频。", "rows": [{"id": "s4-1", "title": "工具向导", "images": [{"src": "img/s4_1_window_menu_mac.png", "cap": "Mac 版「窗口」菜单，蓝框内含 Instructor · 官方 Managing Dialog Boxes in MacOS", "ph": false}, {"src": "img/s4_1_instructor.png", "cap": "工具向导显示环绕工具的说明 · 官方小木屋教案 p9（网页版界面）", "ph": false}], "do": "窗口 › 工具向导（Instructor）。随便选一个今天没讲的工具，比如旋转（Q），窗口里出现动画、步骤、修饰键。", "say": "今天只讲了十来个工具，剩下的不用等我讲。选中它，看工具向导就行。", "model": "场景「3-备用 完成态」：对着小木屋选工具演示。"}, {"id": "s4-2", "title": "搜索", "images": [{"src": "img/s4_2_search.png", "cap": "搜索框 · 官方 Searching in SketchUp（Windows 界面）", "ph": false}, {"src": "img/s4_2_search_results.png", "cap": "搜索 transparent 的结果 · 官方 Searching in SketchUp", "ph": false}], "do": "按 Shift + S 打开搜索，输入工具名或想做的事，比如「剖切」，点结果就能用。", "say": "不用记菜单在哪，知道名字就能找到。这也是为什么要记住工具的名字。", "model": "同上。"}, {"id": "s4-3", "title": "官方中文速查表", "images": [{"src": "img/s4_qrc_mac_p1.png", "cap": "速查表第 1 页：工具与快捷键 · 官方简体中文 Mac", "ph": false}, {"src": "img/s4_qrc_mac_p2.png", "cap": "速查表第 2 页：修饰键与输入格式 · 官方简体中文 Mac", "ph": false}], "do": "展示两页：第 1 页是所有工具的图标和快捷键，第 2 页是每个工具的修饰键和输入格式。课前已发群。", "say": "打印出来放在桌上。Mac 和 Windows 各有一份，按自己的电脑拿。", "model": "不用模型文件。"}, {"id": "s4-4", "title": "B 站视频合集", "images": [{"src": "img/s4_bili_list.png", "cap": "合集的分集列表（前 8 集）· B 站", "ph": false}], "do": "打开「【合集】很详细的新手教程！SketchUp 全套新手基础入门精品教程」（BV1Tb411E7Co），展示分集列表：21 集，约 4 小时 40 分钟。", "say": "课后先看这五集，大约 76 分钟，就把今天的内容完整过了一遍：第 2、3、5、8、9 集。后面的楼梯、桌子、阳台是案例，留着练手。视频是 2019 年录的，界面会有些不一样，比如「图层」现在叫「标记」。软件请用学校授权或官方试用版。", "model": "不用模型文件。"}]}]}</script>
+<script>
+(function () {
+  "use strict";
+  var DATA_PATH = "data/script.json";
+  var DRAFT_KEY = "jianggao-draft-v1";
+  var state = null;
+  var dirty = false;
+  var saving = false;
+  var timer = null;
+  var art = null;
+  var canSave = true;
+  var statusEl = document.getElementById("status");
+  var saveBtn = document.getElementById("saveBtn");
+
+  function setStatus(s, text) {
+    statusEl.dataset.s = s;
+    statusEl.textContent = text;
+    saveBtn.disabled = !(dirty && canSave && !saving);
+  }
+
+  function el(tag, cls, text) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text != null) e.textContent = text;
+    return e;
+  }
+
+  function editable(text, path, tag) {
+    var e = el(tag || "div", "ed", text || "");
+    e.setAttribute("contenteditable", "plaintext-only");
+    if (e.contentEditable !== "plaintext-only") e.setAttribute("contenteditable", "true");
+    e.dataset.path = path;
+    e.setAttribute("role", "textbox");
+    e.setAttribute("aria-multiline", "true");
+    e.spellcheck = false;
+    return e;
+  }
+
+  function setPath(obj, path, val) {
+    var ks = path.split(".");
+    var o = obj;
+    for (var i = 0; i < ks.length - 1; i++) o = o[ks[i]];
+    o[ks[ks.length - 1]] = val;
+  }
+
+  function readText(node) {
+    return (node.innerText || "").replace(/ /g, " ").replace(/\n+$/, "");
+  }
+
+  function gallery(images, rowId) {
+    var g = el("div", "gallery");
+    var stage = el("div", "stage");
+    var im = document.createElement("img");
+    im.loading = "lazy";
+    stage.appendChild(im);
+    var badge = el("span", "ph-badge", "示意图 · 占位");
+    stage.appendChild(badge);
+    var pager = el("div", "pager");
+    var prev = el("button", "btn", "‹");
+    prev.type = "button";
+    prev.setAttribute("aria-label", "上一张");
+    var count = el("span", "count");
+    var next = el("button", "btn", "›");
+    next.type = "button";
+    next.setAttribute("aria-label", "下一张");
+    var cap = el("span", "cap");
+    pager.appendChild(prev); pager.appendChild(count); pager.appendChild(next); pager.appendChild(cap);
+    var i = 0;
+    function show() {
+      var it = images[i];
+      im.src = it.src;
+      im.alt = it.cap;
+      cap.textContent = it.cap;
+      badge.hidden = !it.ph;
+      count.textContent = (i + 1) + " / " + images.length;
+      prev.hidden = next.hidden = count.hidden = images.length < 2;
+    }
+    prev.addEventListener("click", function () { i = (i - 1 + images.length) % images.length; show(); });
+    next.addEventListener("click", function () { i = (i + 1) % images.length; show(); });
+    g.appendChild(stage);
+    g.appendChild(pager);
+    if (images.length) show(); else { stage.textContent = "暂无图片"; pager.hidden = true; }
+    return g;
+  }
+
+  function field(kind, label, text, path) {
+    var f = el("div", "field " + kind);
+    f.appendChild(el("div", "label", label));
+    f.appendChild(editable(text, path));
+    return f;
+  }
+
+  function render() {
+    var root = document.getElementById("root");
+    root.textContent = "";
+    var nav = document.getElementById("nav");
+    while (nav.children.length > 1) nav.removeChild(nav.lastChild);
+
+    var m = state.model;
+    var ms = el("section", "block");
+    ms.id = "model";
+    var mh = el("div", "block-head");
+    mh.appendChild(el("span", "eyebrow", "提前准备 · 一个模型文件"));
+    mh.appendChild(el("h2", null, "模型规划"));
+    ms.appendChild(mh);
+    var card = el("div", "model-card");
+    var file = editable(m.file, "model.file");
+    file.classList.add("file");
+    card.appendChild(file);
+    card.appendChild(editable(m.intro, "model.intro"));
+    var tw = el("div", "table-wrap");
+    var t = el("table");
+    var thead = el("thead");
+    var hr = el("tr");
+    ["场景（Scene）", "标记（Tag）", "放了什么", "位置", "用在哪"].forEach(function (h) { hr.appendChild(el("th", null, h)); });
+    thead.appendChild(hr);
+    t.appendChild(thead);
+    var tb = el("tbody");
+    m.rows.forEach(function (r, ri) {
+      var tr = el("tr");
+      ["scene", "tag", "content", "where", "use"].forEach(function (k) {
+        var td = editable(r[k], "model.rows." + ri + "." + k, "td");
+        tr.appendChild(td);
+      });
+      tb.appendChild(tr);
+    });
+    t.appendChild(tb);
+    tw.appendChild(t);
+    card.appendChild(tw);
+    ms.appendChild(card);
+    root.appendChild(ms);
+
+    state.stages.forEach(function (s, si) {
+      var a = el("a", null, s.name.replace(/^阶段 /, ""));
+      a.href = "#" + s.id;
+      nav.appendChild(a);
+      var sec = el("section", "block");
+      sec.id = s.id;
+      var head = el("div", "block-head");
+      head.appendChild(el("span", "eyebrow", s.time + " · " + s.rows.length + " 个知识点"));
+      head.appendChild(el("h2", null, s.name));
+      var intro = editable(s.intro, "stages." + si + ".intro");
+      intro.classList.add("intro");
+      head.appendChild(intro);
+      sec.appendChild(head);
+      s.rows.forEach(function (r, ri) {
+        var base = "stages." + si + ".rows." + ri + ".";
+        var row = el("article", "row");
+        row.id = r.id;
+        row.appendChild(gallery(r.images || [], r.id));
+        var tx = el("div", "text");
+        var tl = el("div", "title-line");
+        tl.appendChild(el("span", "num", (si + 1) + "-" + (ri + 1)));
+        tl.appendChild(editable(r.title, base + "title", "h3"));
+        tx.appendChild(tl);
+        tx.appendChild(field("say", "讲稿", r.say, base + "say"));
+        tx.appendChild(field("do", "操作", r["do"], base + "do"));
+        tx.appendChild(field("model", "模型", r.model, base + "model"));
+        row.appendChild(tx);
+        sec.appendChild(row);
+      });
+      root.appendChild(sec);
+    });
+  }
+
+  function stashDraft() {
+    try { sessionStorage.setItem(DRAFT_KEY, JSON.stringify(state)); } catch (e) {}
+  }
+  function clearDraft() {
+    try { sessionStorage.removeItem(DRAFT_KEY); } catch (e) {}
+  }
+
+  function onInput(e) {
+    var t = e.target.closest && e.target.closest("[data-path]");
+    if (!t || !state) return;
+    setPath(state, t.dataset.path, readText(t));
+    dirty = true;
+    stashDraft();
+    if (!canSave) { setStatus("ro", "这个视图不能保存，修改只留在本页"); return; }
+    setStatus("dirty", "有未保存的修改");
+    clearTimeout(timer);
+    timer = setTimeout(save, 4000);
+  }
+
+  function save() {
+    clearTimeout(timer);
+    if (!dirty || saving || !canSave) return;
+    if (!art) { setStatus("ro", "保存功能还没连上，修改先留在本页"); return; }
+    saving = true;
+    dirty = false;
+    setStatus("busy", "保存中…");
+    var json = JSON.stringify(state, null, 1);
+    art.publish({ "data/script.json": { content: json, contentType: "application/json" } }).then(function () {
+      saving = false;
+      if (!dirty) { clearDraft(); setStatus("ok", "已保存"); }
+      else { setStatus("dirty", "有未保存的修改"); timer = setTimeout(save, 4000); }
+    }, function (err) {
+      saving = false;
+      dirty = true;
+      var code = err && err.code;
+      if (code === "conflict") { setStatus("busy", "别处有新版本，正在载入…"); return; }
+      if (code === "not_writer" || code === "not_granted" || code === "not_declared" || code === "capability_disabled" || code === "capability_removed" || code === "consent_required") {
+        canSave = false;
+        setStatus("ro", "这个视图只能看，不能保存修改");
+        return;
+      }
+      if (code === "rate_limited") { setStatus("dirty", "保存太频繁，稍后自动重试"); timer = setTimeout(save, 15000); return; }
+      setStatus("err", "保存没成功，点「保存」再试一次");
+    });
+  }
+
+  saveBtn.addEventListener("click", save);
+  document.addEventListener("input", onInput);
+  document.addEventListener("keydown", function (e) {
+    if ((e.metaKey || e.ctrlKey) && e.key === "s") { e.preventDefault(); save(); }
+  });
+  window.addEventListener("beforeunload", function () { if (dirty) stashDraft(); });
+
+  function boot(data) {
+    var draft = null;
+    try { draft = JSON.parse(sessionStorage.getItem(DRAFT_KEY) || "null"); } catch (e) {}
+    if (draft && draft.stages) {
+      state = draft;
+      dirty = true;
+    } else {
+      state = data;
+    }
+    render();
+    if (dirty) setStatus("dirty", "恢复了上次没保存的修改");
+  }
+
+  var seed = JSON.parse(document.getElementById("seed").textContent);
+  fetch(DATA_PATH, { cache: "no-store" }).then(function (r) {
+    if (!r.ok) throw new Error(r.status);
+    return r.json();
+  }).then(boot, function () { boot(seed); });
+
+  if (window.claude && typeof window.claude.use === "function") {
+    window.claude.use("artifact").then(function (a) {
+      art = a;
+      if (!a) {
+        canSave = false;
+        setStatus("ro", "这个视图不能保存，修改只留在本页");
+      } else if (dirty) {
+        setStatus("dirty", "有未保存的修改");
+        timer = setTimeout(save, 4000);
+      }
+    }, function () { canSave = false; setStatus("ro", "这个视图不能保存，修改只留在本页"); });
+  } else {
+    canSave = false;
+    setStatus("ro", "这个视图不能保存，修改只留在本页");
+  }
+})();
+</script>
